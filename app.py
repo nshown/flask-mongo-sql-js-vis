@@ -1,9 +1,16 @@
 from flask import Flask, jsonify, render_template, redirect
-from db import config
 import sqlite3
 import psycopg2
 from pymongo import MongoClient
 
+table_name = "color_votes"
+db_name = "favorite_color"
+
+postgres_pwd = os.environ['POSTGRESQL_PASSWORD']
+
+if postgres_pwd is None:
+    from db import config
+    postgres_pwd = config.postgres_pwd
 
 # Create an instance of Flask
 app = Flask(__name__)
@@ -22,11 +29,11 @@ def js_using_web_api():
 # Route that will return Web API JSON data from SQLite
 @app.route("/sqlite-web-api")
 def sqlite_web_api():
-    conn = sqlite3.connect(f'db/{config.db_name}.db')
+    conn = sqlite3.connect(f'db/{db_name}.db')
 
     cursor = conn.cursor()
 
-    cursor.execute(f'''SELECT VOTES, COLOR from {config.table_name}''')
+    cursor.execute(f'''SELECT VOTES, COLOR from {table_name}''')
 
     results = cursor.fetchall()
     color_data_from_db = [ {"votes": result[0], "color": result[1]} for result in results]
@@ -39,11 +46,11 @@ def sqlite_web_api():
 @app.route("/postgresql-web-api")
 def postgresql_web_api():
     conn = psycopg2.connect(
-        database=config.db_name, user='postgres', password=config.postgres_pwd, host='127.0.0.1', port= '5432'
+        database=db_name, user='postgres', password=postgres_pwd, host='127.0.0.1', port= '5432'
     )
     cursor = conn.cursor()
 
-    cursor.execute(f'''SELECT VOTES, COLOR from {config.table_name}''')
+    cursor.execute(f'''SELECT VOTES, COLOR from {table_name}''')
 
     results = cursor.fetchall()
     color_data_from_db = [ {"votes": result[0], "color": result[1]} for result in results]
@@ -57,9 +64,9 @@ def postgresql_web_api():
 def scrape():
     client = MongoClient('localhost', 27017)
 
-    db = client[config.db_name]
+    db = client[db_name]
 
-    collection = db[config.table_name]
+    collection = db[table_name]
 
     results = collection.find()
     
