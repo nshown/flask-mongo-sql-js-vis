@@ -12,10 +12,13 @@ db_name = "favorite_color"
 #check if we're running in heroku and my environmental variable exist
 if 'DATABASE_URL' in os.environ:
     postgres_url = os.environ['DATABASE_URL']
+    mongo_url = os.environ['MONGO_URL']
 else:
     #if we're not running in heroku then try and get my local config password
     from db import config
     postgres_url = f"postgresql://postgres:{config.postgres_pwd}@127.0.0.1:5432/{db_name}"
+    mongo_url = "mongodb://localhost:27017/"
+
 
 # Create an instance of Flask
 app = Flask(__name__)
@@ -68,7 +71,8 @@ def postgresql_web_api():
 # Route that will return Web API JSON data from MongoDB
 @app.route("/mongodb-web-api")
 def mongodb_web_api():
-    client = MongoClient('localhost', 27017)
+    #client = MongoClient('localhost', 27017)
+    client = MongoClient(mongo_url)
 
     db = client[db_name]
 

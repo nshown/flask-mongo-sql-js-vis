@@ -1,16 +1,32 @@
 #This setup file creates a postgresql database 
-import config
+import os
 from pymongo import MongoClient
 
+db_name = "favorite_color"
+table_name = "color_votes"
+
+if 'MONGO_URL' in os.environ:
+    mongo_url = os.environ['MONGO_URL']
+else:
+    #if we're not running in heroku then try and get my local config password
+    import config
+    db_name = config.db_name
+    table_name = config.table_name
+    mongo_url = "mongodb://localhost:27017/"
+
 #Creating a pymongo client
-client = MongoClient('localhost', 27017)
+client = MongoClient(mongo_url)
+
+#delete database if it exists
+client.drop_database(db_name)
+
 
 #Getting the database instance
-db = client[config.db_name]
+db = client[db_name]
 print("Database created........")
 
 #Creating a collection
-collection = db[config.table_name]
+collection = db[table_name]
 print("Collection created........")
 
 #define data
