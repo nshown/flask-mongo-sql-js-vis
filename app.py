@@ -7,9 +7,11 @@ from pymongo import MongoClient
 table_name = "color_votes"
 db_name = "favorite_color"
 
-postgres_pwd = os.environ['POSTGRESQL_PASSWORD']
-
-if postgres_pwd is None:
+#check if we're running in heroku and my environmental variable exist
+if 'POSTGRESQL_PASSWORD' in os.environ:
+    postgres_pwd = os.environ['POSTGRESQL_PASSWORD']
+else:
+    #if we're not running in heroku then try and get my local config password
     from db import config
     postgres_pwd = config.postgres_pwd
 
