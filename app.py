@@ -9,11 +9,11 @@ db_name = "favorite_color"
 
 #check if we're running in heroku and my environmental variable exist
 if 'POSTGRESQL_PASSWORD' in os.environ:
-    postgres_pwd = os.environ['POSTGRESQL_PASSWORD']
+    postgres_url = os.environ['DATABASE_URL']
 else:
     #if we're not running in heroku then try and get my local config password
     from db import config
-    postgres_pwd = config.postgres_pwd
+    postgres_url = f"postgresql://postgres:{config.postgres_pwd}@127.0.0.1:5432/{db_name}"
 
 # Create an instance of Flask
 app = Flask(__name__)
@@ -48,9 +48,10 @@ def sqlite_web_api():
 # Route that will return Web API JSON data from PostgreSQL
 @app.route("/postgresql-web-api")
 def postgresql_web_api():
-    conn = psycopg2.connect(
-        database=db_name, user='postgres', password=postgres_pwd, host='127.0.0.1', port= '5432'
-    )
+    # conn = psycopg2.connect(
+    #     database=db_name, user='postgres', password=postgres_pwd, host='127.0.0.1', port= '5432'
+    # )
+    conn = psycopg2.connect(postgres_url)
     cursor = conn.cursor()
 
     cursor.execute(f'''SELECT VOTES, COLOR from {table_name}''')
