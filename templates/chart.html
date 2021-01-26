@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Sample Flask Website</title>
+  <script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <!-- Links -->
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/chart">Chart</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/sqlite-web-api">SQLite Web API</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/postgresql-web-api">PostgreSQL Web API</a>
+      </li>
+       <li class="nav-item">
+        <a class="nav-link" href="/mongodb-web-api">MongoDB Web API</a>
+      </li>
+    </ul>  
+  </nav>
+  <div class="content">
+    <h2>Plotly Visualization Created Using JavaScript To Query Web API</h2>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs">
+          <p>Choose Web API<br>Database</p>
+          <select name="dbs" id="dbs" onchange="optionChanged(this.value)">
+            <option value="sqlite">SQLite</option>
+            <option value="postgresql">PostgreSQL</option>
+            <option value="mongodb">MongoDB</option>
+          </select>
+        </div>
+        <div class="col-lg" id="chart-area">
+          <div id="my-chart"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script src="/static/js/chart.js"></script>
+
+</html>
