@@ -1,0 +1,11 @@
+certifi==2020.6.20
+click==7.1.2
+Flask==1.1.2
+gunicorn==20.0.4
+itsdangerous==1.1.0
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+psycopg2 @ file:///C:/ci/psycopg2_1594303009470/work
+pymongo==3.11.0
+Werkzeug==1.0.1
+wincertstore==0.2
