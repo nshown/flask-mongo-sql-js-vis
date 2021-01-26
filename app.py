@@ -8,7 +8,7 @@ table_name = "color_votes"
 db_name = "favorite_color"
 
 #check if we're running in heroku and my environmental variable exist
-if 'POSTGRESQL_PASSWORD' in os.environ:
+if 'DATABASE_URL' in os.environ:
     postgres_url = os.environ['DATABASE_URL']
 else:
     #if we're not running in heroku then try and get my local config password
