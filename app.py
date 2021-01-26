@@ -3,6 +3,8 @@ import os
 import sqlite3
 import psycopg2
 from pymongo import MongoClient
+import socket
+
 
 table_name = "color_votes"
 db_name = "favorite_color"
@@ -65,7 +67,7 @@ def postgresql_web_api():
 
 # Route that will return Web API JSON data from MongoDB
 @app.route("/mongodb-web-api")
-def scrape():
+def mongodb_web_api():
     client = MongoClient('localhost', 27017)
 
     db = client[db_name]
@@ -80,7 +82,9 @@ def scrape():
     
     return jsonify(color_data_from_db)
 
-
+@app.route("/ip-test")
+def ip_test():
+    return socket.gethostbyname(socket.gethostname())
 
 if __name__ == "__main__":
     app.run(debug=True)
