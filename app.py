@@ -86,9 +86,5 @@ def mongodb_web_api():
     
     return jsonify(color_data_from_db)
 
-@app.route("/ip-test")
-def ip_test():
-    return socket.gethostbyname(socket.gethostname())
-
 if __name__ == "__main__":
     app.run(debug=True)
