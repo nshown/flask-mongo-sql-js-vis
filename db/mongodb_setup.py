@@ -7,6 +7,9 @@ table_name = "color_votes"
 
 if 'MONGO_URL' in os.environ:
     mongo_url = os.environ['MONGO_URL']
+    #Creating a pymongo client
+    client = MongoClient(mongo_url)
+
 else:
     #if we're not running in heroku then try and get my local config password
     import config
@@ -14,19 +17,24 @@ else:
     table_name = config.table_name
     mongo_url = "mongodb://localhost:27017/"
 
-#Creating a pymongo client
-client = MongoClient(mongo_url)
+    #Creating a pymongo client
+    client = MongoClient(mongo_url)
 
-#delete database if it exists
-client.drop_database(db_name)
+    #delete database if it exists
+    client.drop_database(db_name)
 
 
 #Getting the database instance
 db = client[db_name]
 print("Database created........")
 
+#drop collection if it exists
+collection = db[table_name]
+collection.drop()
+
 #Creating a collection
 collection = db[table_name]
+
 print("Collection created........")
 
 #define data
