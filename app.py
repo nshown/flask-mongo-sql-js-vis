@@ -26,12 +26,14 @@ app = Flask(__name__)
 # Route to render most basic index.html template
 @app.route("/")
 def home():
+    print("responding to home route request")
     # Return template and data
     return render_template("index.html")
 
 # Route to render visualization by querying web api from JavaScript
 @app.route("/chart")
 def js_using_web_api():
+    print("responding to /chart route request")
     return render_template("chart.html")
 
 # Route that will return Web API JSON data from SQLite
@@ -47,6 +49,8 @@ def sqlite_web_api():
     color_data_from_db = [ {"votes": result[0], "color": result[1]} for result in results]
 
     conn.close()
+    
+    print("responding to /sqlite-web-api route request")
 
     return jsonify(color_data_from_db)
 
@@ -66,6 +70,7 @@ def postgresql_web_api():
 
     conn.close()
 
+    print("responding to /postgresql-web-api route request")
     return jsonify(color_data_from_db)
 
 # Route that will return Web API JSON data from MongoDB
@@ -83,7 +88,7 @@ def mongodb_web_api():
     #results is a cursor object, when looping through it each result is a dictionary
     color_data_from_db = [ {"votes": result["votes"], "color": result["color"]} for result in results]
 
-    
+    print("responding to /mongodb-web-api route request")
     return jsonify(color_data_from_db)
 
 if __name__ == "__main__":
